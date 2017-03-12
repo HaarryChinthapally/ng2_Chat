@@ -5,4 +5,4 @@
 - `gulp`
 - `nodemon server.js` or `node server.js`
 
-Navigate to port 3000
+Navigate to port 8000
