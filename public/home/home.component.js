@@ -9,27 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var socket_service_1 = require('../shared/socket.service');
+var io = require('socket.io-client');
 var HomeComponent = (function () {
-    function HomeComponent(_socketService) {
-        this._socketService = _socketService;
+    function HomeComponent() {
+        this.socket = io.connect('http://localhost:8000');
+        this.socket.on("connection", function () { return console.log("this is only a test"); });
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.messages = new Array();
-        this._socketService.on('chatMessage', function (msg) {
-            _this.messages.push(msg);
+        this.socket.on('event1', function (data) {
+            console.log(data.msg);
+            _this.socket.emit('event2', {
+                msg: 'Yes, its working for me !!'
+            });
         });
-    };
-    HomeComponent.prototype.sendMessage = function () {
-        var message = {
-            text: this.messageText
-        };
-        this._socketService.emit('chatMessage', message);
-        this.messageText = '';
-    };
-    HomeComponent.prototype.ngOnDestroy = function () {
-        this._socketService.removeListener('chatMessage');
+        this.socket.emit('event3', {
+            msg: 'Hello from client'
+        });
     };
     HomeComponent = __decorate([
         core_1.Component({
@@ -38,7 +34,7 @@ var HomeComponent = (function () {
             styleUrls: ['home.styles.css'],
             templateUrl: 'home.template.html'
         }), 
-        __metadata('design:paramtypes', [socket_service_1.SocketService])
+        __metadata('design:paramtypes', [])
     ], HomeComponent);
     return HomeComponent;
 }());
