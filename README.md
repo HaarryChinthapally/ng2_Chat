@@ -2,7 +2,7 @@
 
 ## Run the project
 - `npm i` or `yarn`
-- `gulp`
-- `nodemon server.js` or `node server.js`
+- command prompt 1 type `nodemon server.js` or `node server.js`
+- command prompt 2 type `npm start` to load the lite-server and run application
 
-Navigate to port 8000
+### Project opens on Port 3000

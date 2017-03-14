@@ -16,25 +16,20 @@ io.on('connection', (socket) => {
   //   io.emit('message-received', data);
   // });
 
-   socket.emit('event1', {
-      msg: 'Is socket.io working for you ?'
+   socket.on('event1', (data) => {
+      console.log(data.msg);
     });
 
-   socket.on('event2', (data) => {
-      console.log(data.msg);
+   socket.emit('event2', {
+      msg: 'Server to client, do you read me? Over.'
     });
 
    socket.on('event3', (data) => {
       console.log(data.msg);
+      socket.emit('event4', {
+        msg: 'Loud and clear :)'
+      });
     });
-
-  // socket.emit('message-from-server', {
-  //   greeting: 'Hello from Server'
-  // });
-
-  // socket.on('message-from-client', function(msg) {
-  //   console.log(msg);
-  // });
 
 });
 
