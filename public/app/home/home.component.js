@@ -9,23 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var io = require('socket.io-client');
+var socket_service_1 = require('../shared/socket.service');
 var HomeComponent = (function () {
-    function HomeComponent() {
-        this.socket = io.connect('http://localhost:8000');
-        this.socket.on("connection", function () { return console.log("this is only a test"); });
+    function HomeComponent(_socketService) {
+        this._socketService = _socketService;
+        this.avatar = 'https://api.adorable.io/avatars/30/abott@adorable.png';
+        this.selfAuthored = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.socket.on('event1', function (data) {
-            console.log(data.msg);
-            _this.socket.emit('event2', {
-                msg: 'Yes, its working for me !!'
-            });
+        this.messages = new Array();
+        this._socketService.on('message-received', function (msg) {
+            _this.messages.push(msg);
+            console.log(msg);
+            console.log(_this.messages);
         });
-        this.socket.emit('event3', {
-            msg: 'Hello from client'
-        });
+    };
+    HomeComponent.prototype.sendMessage = function () {
+        var message = {
+            text: this.messageText,
+            date: Date.now(),
+            imageUrl: this.avatar
+        };
+        this._socketService.emit('send-message', message);
+        // console.log(message.text);
+        this.messageText = '';
     };
     HomeComponent = __decorate([
         core_1.Component({
@@ -34,7 +42,7 @@ var HomeComponent = (function () {
             styleUrls: ['home.styles.css'],
             templateUrl: 'home.template.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [socket_service_1.SocketService])
     ], HomeComponent);
     return HomeComponent;
 }());

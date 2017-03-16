@@ -8,13 +8,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// import { Subject } from 'rxjs/Subject';
-// import { Observable } from 'rxjs/Observable';
 var core_1 = require('@angular/core');
-// import * as io from 'socket.io-client';
+var io = require('socket.io-client');
 var SocketService = (function () {
     function SocketService() {
+        this.socket = io.connect('http://localhost:8000');
     }
+    SocketService.prototype.on = function (eventName, callback) {
+        if (this.socket) {
+            this.socket.on(eventName, function (data) {
+                callback(data);
+            });
+        }
+    };
+    ;
+    SocketService.prototype.emit = function (eventName, data) {
+        if (this.socket) {
+            this.socket.emit(eventName, data);
+        }
+    };
+    ;
+    SocketService.prototype.removeListener = function (eventName) {
+        if (this.socket) {
+            this.socket.removeListener(eventName);
+        }
+    };
+    ;
     SocketService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

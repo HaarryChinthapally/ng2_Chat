@@ -2,11 +2,10 @@
 
   // map tells the System loader where to look for things
   var map = {
-    'app':        'public', // 'dist',
-    '@angular':   'node_modules/@angular',
-    'rxjs':       'node_modules/rxjs',
-    'angular-in-memory-web-api': 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-    'socket.io-client': 'node_modules/socket.io-client'
+    'app':        'app',
+    '@angular':   'lib/@angular',
+    'rxjs':       'lib/rxjs',
+    'socket.io-client': 'lib/socket.io-client'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
